@@ -1,5 +1,5 @@
 <template>
-    <b-container id="TestJQ1_Appvue" fluid="lg" style="padding: 0">
+    <b-container id="order_appvue" fluid="lg" style="padding: 0">
 
         <b-row no-gutters fluid>
             <b-col cols="12">

@@ -23,8 +23,8 @@
 
 
 
-    <meta name="apple-mobile-web-app-title" content="TestJQ1">
-    <meta name="application-name" content="TestJQ1">
+    <meta name="apple-mobile-web-app-title" content="Arcadia Dealer Portal">
+    <meta name="application-name" content="Arcadia Dealer Portal">
     <title>Test JQ1</title>
 
     <style>
@@ -53,8 +53,7 @@
 <!--cript src={{ '/cdn/jqw/jqwidgets/globalization/globalize.js'|theasResource }}-->
 <!--cript src={{ '/cdn/jqw/jqwidgets/globalization/globalize.culture.en-US.js'|theasResource }}-->
 
-<!--cript src="./TestJQ1.js" type="module"-->
-<script  type="module" src={{ '/test/TestJQ1.js'|theasResource }}></script>
+<script  type="module" src={{ '/order.js'|theasResource }}></script>
 
 </head>
 <body>
