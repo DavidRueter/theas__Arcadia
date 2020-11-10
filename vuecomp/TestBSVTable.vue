@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <h1>Hail BSV! Nice!</h1>
         <div class="mb-2">
             <b-form-checkbox v-model="stickyHeader" inline>Sticky header</b-form-checkbox>
