@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pings</title>
+    <meta http-equiv="X-UA-Compatible"/>
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!--<link type="text/css" rel="stylesheet" href="cdn/bootstrap4/css/bootstrap.min.css"/>-->
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4.0.0-alpha.6/dist/css/bootstrap.css"/>
+
+
+    <!--link type="text/css" rel="stylesheet" href="cdn/bootstrap-vue/bootstrap-vue.css"/-->
+
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
+
+
+    <link rel="stylesheet" href="cdn/font-awesome/css/font-awesome.min.css">
+
+
+</head>
+
+<body>
+
+<div id="thapp">
+
+    <form method="post" class="form-horizontal" id="theasForm" @submit.prevent="submitForm">
+        <!--Theas session management -->
+        {{ "__th"|theasSessionToken(vuejs=True) }}
+        {{ "__th"|theasXSRF }}
+
+        {{ "__th"|theasHidden(name="th:NextPage", vuejs=True) }}
+        {{ "__th"|theasHidden(name="th:doHistoryGoBack", vuejs=True) }}
+
+        {{ "theas:Program:ProgramName"|theasInclude }}
+        {{ "theas:Program:AudioFile"|theasInclude }}
+    </form>
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-3">
+                <img src="ArcadiaLogo_180.jpg"/>
+            </div>
+
+            <div class="col-9">
+                <div class="float-right">{{ data.General.WorkerName }}
+                </div>
+            </div>
+        </div>
+
+<!--
+        <div class="row">
+            <div class="col-3">
+                <b-btn variant="primary" size="sm" href="ping">Add a Ping</b-btn>
+            </div>
+
+            <div class="col-3"></div>
+            <div class="col-3"></div>
+
+            <div class="col-3">
+                <b-btn variant="warning" size="sm" v-b-modal.patientmodal class="float-right">Add a Patient</b-btn>
+            </div>
+        </div>
+        
+-->        
+
+
+        <div class="row">
+            <div class="col-12">
+                <template>
+
+                    <b-card no-body>
+                        <b-tabs ref="tabs" card :value="currentTabNumber" active>
+                            <b-tab title="Pings">
+
+                                <div style="height:75vh; overflow:scroll">
+                                    <v-touch @swipeleft="prevtab" @swiperight="nexttab">
+
+
+                                        {% for thisRow in data.Pings %}
+                                            <div style="padding:5px">
+                                                <div class="card card-inverse"
+                                                     style="background-color: #333; border-color: #333;">
+                                                    <div class="card-block">
+                                                        <h3 class="card-title">{{ thisRow.DateReceived|friendlydate(formatstr='%a %m/%d/%y') }}&nbsp;&nbsp;<span
+                                                                class="h4">{{ thisRow.DateReceived|friendlydate(formatstr='%I:%M %p') }}</span><span
+                                                                class="h5 bg-info float-right">{{ thisRow.PatientName }}</span>
+                                                        </h3>
+
+                                                        <p class="card-text">{{ thisRow.MessageText }}</p>
+
+                                                        {% if thisRow.HasAudio %}
+                                                            <audio id="audio" preload="none"
+                                                                   src="r/pingaudio/{{ thisRow.qguid }}"
+                                                                   controls></audio>
+                                                        {% endif %}
+
+                                                        <div>
+                                                            <b-btn size="sm" class="float-left" variant="secondary"
+                                                                   v-b-modal.mymodal2>Actions
+                                                            </b-btn>
+
+                                                            <b-btn size="sm" class="float-right" variant="secondary"
+                                                                   v-b-modal.mymodal>Categories
+                                                            </b-btn>
+                                                        </div>
+
+
+                                                        <!--<a href="#" class="btn btn-primary">Forward</a>-->
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        <!-- the modal -->
+
+                                    </v-touch>
+                                </div>
+
+                            </b-tab>
+                            <b-tab title="Patients">
+                                <div style="height:75vh; overflow:scroll">
+                                    <v-touch @swipeleft="prevtab" @swiperight="nexttab">
+
+
+                                        {% for thisPatient in data.Patients %}
+                                            <div style="padding:5px">
+                                                <div class="card card-inverse"
+                                                     style="background-color: #333; border-color: #333;">
+                                                    <div class="card-block">
+                                                        <h4 class="card-title">{{ thisPatient.PatientName }}</h4>
+                                                        <p class="card-text">
+                                                            {% if thisPatient.LastPingDateReceived %}
+                                                                Last
+                                                                Ping:
+                                                                {{ thisPatient.LastPingDateReceived|friendlydate(formatstr='%a %m/%d/%y') }}
+                                                                <br/>
+                                                            {% endif %}
+                                                            {% if thisPatient.CellPhone %}
+                                                                Cell: <a
+                                                                    href="tel:{{ thisPatient.CellPhone }}">{{ thisPatient.CellPhone }}</a>
+                                                                <br/>
+                                                            {% endif %}
+
+                                                            {% if thisPatient.HomePhone %}
+                                                                Home: <a
+                                                                    href="tel:{{ thisPatient.HomePhone }}">{{ thisPatient.HomePhone }}</a>
+                                                            {% endif %}
+                                                        </p>
+
+                                                        {% if thisPatient.LastPingDateReceived %}
+                                                            <b-btn size="sm" class="float-right" variant="secondary"
+                                                                   @click.prevent="showPatientHistory($event, '{{ thisPatient.Patient_qguid }}')">
+                                                                History
+                                                            </b-btn>
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+
+                                    </v-touch>
+
+                                </div>
+                            </b-tab>
+
+
+                            <b-tab title="Settings">
+                                <v-touch @swipeleft="prevtab" @swiperight="nexttab">
+
+                                    <div class="form-group">
+                                        <b-form-fieldset
+                                                description="Enter your First Name."
+                                                label="First Name"
+                                                :label-cols="6"
+                                        >
+
+                                            <b-form-input v-model="theas.Nurse$FirstName"
+                                                          type="text"
+                                                          placeholder="First Name"
+                                            ></b-form-input>
+
+
+                                        </b-form-fieldset>
+
+                                        <b-form-fieldset
+                                                description="Enter your Last Name."
+                                                label="Last Name"
+                                                :label-cols="6"
+                                        >
+
+                                            <b-form-input v-model="theas.Nurse$LastName"
+                                                          type="text"
+                                                          placeholder="Last Name"
+                                            ></b-form-input>
+
+
+                                        </b-form-fieldset>
+
+
+                                        <b-form-fieldset
+                                                description="Enter your cell phone number"
+                                                label="Cell Phone"
+                                                :label-cols="6"
+                                        >
+
+                                            <b-form-input v-model="theas.Nurse$CellPhone"
+                                                          type="text"
+                                                          placeholder="Cell Phonel"
+                                            ></b-form-input>
+
+
+                                        </b-form-fieldset>
+
+
+                                        <b-form-fieldset>
+
+                                            <b-form-checkbox id="ckbxSMSAlerts"
+                                                             v-model="theas.Nurse$SMSAlerts"
+                                                             value="1"
+                                                             unchecked-value="1">
+                                                Send me text message alerts
+                                            </b-form-checkbox>
+                                        </b-form-fieldset>
+
+                                        <b-form-fieldset
+                                                description="Enter your email address."
+                                                label="Email"
+                                                :label-cols="6"
+                                        >
+
+                                            <b-form-input v-model="theas.Nurse$Email"
+                                                          type="text"
+                                                          placeholder="Email"
+                                            ></b-form-input>
+
+
+                                        </b-form-fieldset>
+
+
+                                        <b-form-fieldset>
+
+                                            <b-form-checkbox id="ckbxEmailAlerts"
+                                                             v-model="theas.Nurse$EmailAlerts"
+                                                             value="1"
+                                                             unchecked-value="1">
+                                                Send me email alerts
+                                            </b-form-checkbox>
+                                        </b-form-fieldset>
+
+                                        <b-btn :variant="submitstate" @click.prevent="submitForm">Submit</b-btn>
+                                        <b-btn variant="outline-warning" @click.prevent="cancelForm">Cancel</b-btn>
+
+                                    </div>
+                                </v-touch>
+                            </b-tab>
+
+                        </b-tabs>
+                    </b-card>
+
+
+                    <b-modal id="patientmodal" title="Add a Patient" @ok="addPatient">
+
+                        <div class="form-group">
+                            <b-form-fieldset
+                                    description="Enter the Patient's First Name."
+                                    label="First Name"
+                                    :label-cols="6"
+                            >
+
+                                <b-form-input v-model="theas.Patient$FirstName"
+                                              type="text"
+                                              placeholder="First Name"
+                                ></b-form-input>
+
+
+                            </b-form-fieldset>
+
+                            <b-form-fieldset
+                                    description="Enter the Patient's Last Name."
+                                    label="Last Name"
+                                    :label-cols="6"
+                            >
+
+                                <b-form-input v-model="theas.Patient$LastName"
+                                              type="text"
+                                              placeholder="Last Name"
+                                ></b-form-input>
+
+
+                            </b-form-fieldset>
+
+                        </div>
+
+                    </b-modal>
+
+                    <b-modal id="mymodal" title="Categories for this Ping">
+                        <b-form-checkbox-group stacked v-model="sampleselections" name="flavour2"
+                                               :options="pingCatOptions">
+                        </b-form-checkbox-group>
+                    </b-modal>
+
+                    <b-modal id="mymodal2" title="Action to perform for this Ping">
+                        <b-form-checkbox-group stacked v-model="sampleselections" name="flavour2"
+                                               :options="pingActionOptions">
+                        </b-form-checkbox-group>
+                    </b-modal>
+
+                    <b-modal ref="patientHistoryModal" id="patientHistoryModal" title="Patient History" ok-only>
+
+                        <div style="height:60vh; overflow:scroll">
+
+                            <div id="patientHistoryCards" style="padding:5px" v-for="hist in patientHistory">
+
+                                <div class="card card-inverse"
+                                     style="background-color: #333; border-color: #333;">
+                                    <div class="card-block">
+                                        <h3 class="card-title">[[ formatDate(hist.DateReceived, 'MM/DD/YYYY')
+                                            ]]&nbsp;&nbsp;<span
+                                                    class="h4">[[ formatDate(hist.DateReceived, 'h:mm a') ]]</span><span
+                                                    class="h5 bg-info float-right">[[ hist.NurseName ]]</span>
+                                        </h3>
+
+                                        <p class="card-text">[[ hist.MessageText ]]</p>
+
+                                        <audio id="audio" preload="none"
+                                               :src="'r/pingaudio/' + [[hist.qguid]]"
+                                               v-if="hist.HasAudio"
+                                               controls></audio>
+
+                                        <b-btn size="sm" class="float-right" variant="secondary"
+                                               v-b-modal.mymodal>Categories
+                                        </b-btn>
+
+                                        <!--<a href="#" class="btn btn-primary">Forward</a>-->
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </b-modal>
+
+                </template>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="cdn/vuejs/vue.js"></script>
+
+<script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+<script src="//unpkg.com/tether@latest/dist/js/tether.min.js"></script>
+
+<script src="cdn/axios/axios.min.js"></script>
+<!--script src="cdn/bootstrap-vue/bootstrap-vue.js">/script-->
+
+<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
+<script src="cdn/hammerjs/hammer.min.js"></script>
+<!--xcript src="https://unpkg.com/hammerjs@2.0.8/hammer.js"></script>-->
+
+<script src="cdn/vuetouch/vue-touch.js"></script>
+<!--xcript src="https://unpkg.com/vue-touch@2.0.0-beta.4/dist/vue-touch.js"></script>-->
+
+<script src="cdn/moment/moment.js"></script>
+
+
+<script>
+
+    //use Axios instead of vue-resource for HTTP calls as per https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4
+    Vue.prototype.$http = axios;
+
+    Vue.use(VueTouch);
+
+    VueTouch.config.swipe = {
+        direction: 'horizontal'
+    }
+
+    var thapp = new Vue({
+
+        el: '#thapp',
+        delimiters: ["[[", "]]"],
+
+        data: {
+            theas: {{ "__th"|theasValuesJSON }},
+
+            patientHistory: [], // transitory / history for the currently-selected patient
+
+            //theas: {
+            //  th$PerformUpdate: '0',
+            //  th$DoHistoryGoBack: '0',
+            //  th$NextPage: '',
+
+            //  Program$ProgramName: 'new program',
+            //  Program$Speaker: '',
+            //  Program$AudioFile: null,
+            //}
+
+            submitted: false,
+
+            programnamefeedback: null,
+            programnamestate: null,
+            speakerfeedback: null,
+            speakerstate: null,
+            audiofilefeedback: null,
+            audiofilestate: null,
+
+            tabCount: 3,
+            currentTabNumber: 0,
+
+            sampleselections: [], // Must be an array reference!
+
+
+            pingCatOptions: [{
+                text: 'Patient Note',
+                value: 'a'
+            }, {
+                text: 'To Do',
+                value: 'b'
+            }, {
+                text: 'Event Note',
+                value: 'c'
+            }, {
+                text: 'Other',
+                value: 'c'
+            }],
+
+            pingActionOptions: [{
+                text: 'Assign Patient',
+                value: 'a'
+            }, {
+                text: 'Delete',
+                value: 'b'
+            }, {
+                text: 'Snooze',
+                value: 'c'
+            }, {
+                text: 'Forward',
+                value: 'd'
+            }, {
+                text: 'Reply',
+                value: 'e'
+            }]
+        },
+
+        computed: {
+
+            feedback() {
+                return this.name.length ? '' : 'Please enter something';
+            },
+
+            state() {
+                return this.name.length ? 'success' : 'warning';
+            },
+
+            submitstate() {
+                return this.audiofile ? 'success' : 'outline-success';
+            },
+
+        },
+
+        methods: {
+
+            nexttab: function (e) {
+                this.currentTabNumber--;
+                if (this.currentTabNumber < 0) {
+                    this.currentTabNumber = this.tabCount - 1
+                }
+            },
+
+            prevtab: function (e) {
+                this.currentTabNumber++;
+                if (this.currentTabNumber > this.tabCount - 1) {
+                    this.currentTabNumber = 0
+                }
+            },
+
+            formatDate: function (thisDate, thisFormatStr) {
+                //if (typeof thisDate === 'string' || thisDate instanceof String) {
+                //    thisDate = thisDate.replace('T', ' ');
+                //}
+                var result = moment(thisDate).format(thisFormatStr);
+                return result;
+            },
+
+
+            getPatientHistory: function (qguid) {
+                var that = this;
+
+                that.patientHistory = [];
+                that.patientHistory.splice(0);
+
+                // access the HTML theasForm (that was rendered by the server)
+                var theasForm = document.getElementById('theasForm');
+                var theasFormData = new FormData(theasForm);
+
+                for (var pair of theasFormData.entries()) {
+                    console.log('Before: ' + pair[0] + ', ' + pair[1]);
+                }
+
+                //append Vue.js field data
+                //see:  https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+
+                for (var k in this.theas) {
+                    if (this.theas.hasOwnProperty(k)) {
+                        theasFormData.set('theas:' + k.replace('$', ':'), this.theas[k]);
+                    }
+                }
+
+                theasFormData.set('cmd', 'PatientHistory');
+                theasFormData.set('theas:qguid', qguid);
+
+                for (var pair of theasFormData.entries()) {
+                    console.log('After: ' + pair[0] + ', ' + pair[1]);
+                }
+
+                axios({
+                    method: 'post',
+                    url: 'async', //Assumes that Pings is the current resource, resulting in Pings_Async stored proc
+                    data: theasFormData,
+                    config: {headers: {'Content-Type': 'multipart/form-data'}}
+                })
+                    .then(function (response) {
+                        //handle success
+                        console.log(response);
+                        that.patientHistory = response.data;
+                    })
+                    .catch(function (response) {
+                        //handle error
+                        console.log(response);
+                    });
+
+                this.submitted = true;
+            },
+
+
+            showPatientHistory: function (e, qguid) {
+                var that = this;
+
+                that.getPatientHistory(qguid);
+                that.$refs.patientHistoryModal.show();
+            },
+
+            addPatient: function (e) {
+                var that = this;
+
+                // access the HTML theasForm (that was rendered by the server)
+                var theasForm = document.getElementById('theasForm');
+                var theasFormData = new FormData(theasForm);
+
+                for (var pair of theasFormData.entries()) {
+                    console.log('Before: ' + pair[0] + ', ' + pair[1]);
+                }
+
+                //append Vue.js field data
+                //see:  https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+
+                for (var k in this.theas) {
+                    if (this.theas.hasOwnProperty(k)) {
+                        theasFormData.set('theas:' + k.replace('$', ':'), this.theas[k]);
+                    }
+                }
+
+                theasFormData.set('cmd', 'AddPatient');
+
+                for (var pair of theasFormData.entries()) {
+                    console.log('After: ' + pair[0] + ', ' + pair[1]);
+                }
+
+                axios({
+                    method: 'post',
+                    url: 'async', //Assumes that Pings is the current resource, resulting in Pings_Async stored proc
+                    data: theasFormData,
+                    config: {headers: {'Content-Type': 'multipart/form-data'}}
+                })
+                    .then(function (response) {
+                        //handle success
+                        console.log(response);
+                        //that.patientHistory = response.data;
+                    })
+                    .catch(function (response) {
+                        //handle error
+                        console.log(response);
+                    });
+
+                this.submitted = true;
+            },
+
+            submitForm: function (e) {
+
+                // tell Theas server that we want to update data
+                this.theas.th$PerformUpdate = '1';
+
+                // access the HTML theasForm (that was rendered by the server)
+                //var theasForm = document.forms.namedItem('theasForm');
+                var theasForm = document.getElementById('theasForm');
+                var theasFormData = new FormData(theasForm);
+
+                for (var pair of theasFormData.entries()) {
+                    console.log('Before: ' + pair[0] + ', ' + pair[1]);
+                }
+
+                //append Vue.js field data
+                //see:  https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+
+                for (var k in this.theas) {
+                    if (this.theas.hasOwnProperty(k)) {
+                        theasFormData.set('theas:' + k.replace('$', ':'), this.theas[k]);
+                    }
+                }
+
+                //theasFormData.append('theas:Program:ProgramName', this.theas$rogram$ProgramName);
+                //theasFormData.append('theas:Program:Speaker', this.theas$Program$Speaker);
+                //theasFormData.append('theas:Program:AudioFile', this.theas$Program$AudioFile);
+
+                for (var pair of theasFormData.entries()) {
+                    console.log('After: ' + pair[0] + ', ' + pair[1]);
+                }
+
+
+                //var theasForm = document.getElementById('theasForm');
+                //theasForm.submit();
+
+
+                axios({
+                    method: 'post',
+                    url: 'addprogram4',
+                    data: theasFormData
+                })
+                    .then(function (response) {
+                        //handle success
+                        console.log(response);
+                        location.reload();
+                    })
+                    .catch(function (response) {
+                        //handle error
+                        console.log(response);
+                    });
+
+                this.submitted = true;
+            },
+
+
+        }
+    });
+
+</script>
+
+</body>
+</html>
