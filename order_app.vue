@@ -20,7 +20,7 @@
 </template>
  
 <script>
-    import TestBSVTable from  {{ '/test/TestBSVTable2.vue'|theasResource }};
+    import TestBSVTable from  {{ '/vuecomp/TestBSVTable2.vue'|theasResource }};
 
  
     export default {
