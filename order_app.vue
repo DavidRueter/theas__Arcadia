@@ -18,6 +18,7 @@
 
 </template>
  
+ 
 <script>
     import TestBSVTable from  {{ '/vuecomp/TestBSVTable2.vue'|theasResource }};
 

@@ -21,7 +21,6 @@ import vueOrderApp from {{ 'order_app.vue'|theasResource }}
         }
     });
     
-
     Vue.directive('swiperight', {
         bind: function (el, binding) {
             if (typeof binding.value === 'function') {
