@@ -1,5 +1,6 @@
 import vueOrderApp from {{ 'order_app.vue'|theasResource }}
 
+
   //use Axios instead of vue-resource for HTTP calls as per https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4
     Vue.prototype.$http = axios;
 
