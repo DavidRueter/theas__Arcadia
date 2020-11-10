@@ -1,9 +1,9 @@
 <template>
-    <b-container id="order_appvue" fluid="lg" style="padding: 0">
+    <b-container id="Order_Appvue" fluid="lg" style="padding: 0">
 
         <b-row no-gutters fluid>
             <b-col cols="12">
-                <h3>Bust that cache! For Sure..from GitHub!</h3>
+                <h3>Bust that cache! For Sure, from GitHub</h3>
                 <p>Hello World</p>
             </b-col>
         </b-row>
@@ -14,11 +14,13 @@
             </b-col>
         </b-row>
 
+
   <b-container>
+
 </template>
  
-
 <script>
+    import TestBSVTable from  {{ '/vuecomp/TestBSVTable2.vue'|theasResource }};
 
  
     export default {
