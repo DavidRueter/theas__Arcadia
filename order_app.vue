@@ -1,4 +1,5 @@
 <template>
+
     <b-container id="order_appvue" fluid="lg" style="padding: 0">
 
         <b-row no-gutters fluid>
@@ -18,7 +19,7 @@
 
 </template>
  
- 
+
 <script>
     import TestBSVTable from  {{ '/vuecomp/TestBSVTable2.vue'|theasResource }};
 
