@@ -4,7 +4,7 @@
         <b-row no-gutters fluid>
             <b-col cols="12">
                 <h3>Bust that cache! Neat! from GitHub</h3>
-                <p>Hello World, it's Thursday.</p>
+                <p>Hello World, it's Thursday morning.</p>
             </b-col>
         </b-row>
 
