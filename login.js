@@ -4,7 +4,7 @@ import vueTestJQ1 from {{ '/thLogin.vue'|theasResource }}
     Vue.prototype.$http = axios;
 
     Vue.directive('swipeleft', {
-        bind: function (el, bindin
+        bind: function (el, binding) {
         {
             if (typeof binding.value === 'function') {
 
