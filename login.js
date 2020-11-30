@@ -3,6 +3,7 @@ import vueTestJQ1 from {{ '/thLogin.vue'|theasResource }}
   //use Axios instead of vue-resource for HTTP calls as per https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4
     Vue.prototype.$http = axios;
 
+    /*
     Vue.directive('swipeleft', {
         bind: function (el, binding) {
         {
@@ -40,6 +41,8 @@ import vueTestJQ1 from {{ '/thLogin.vue'|theasResource }}
             }
         }
     });
+
+    */
 
     if (!FormData.prototype.set) {
         FormData.prototype.set = FormData.prototype.append;
