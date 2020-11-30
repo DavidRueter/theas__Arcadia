@@ -1,10 +1,11 @@
-import vueTestJQ1 from {{ '/test/TestJQ1_App.vue'|theasResource }}
+import vueTestJQ1 from {{ '/thLogin.vue'|theasResource }}
 
   //use Axios instead of vue-resource for HTTP calls as per https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4
     Vue.prototype.$http = axios;
 
     Vue.directive('swipeleft', {
-        bind: function (el, binding) {
+        bind: function (el, bindin
+        {
             if (typeof binding.value === 'function') {
 
                 const mc = new Hammer.Manager(el, {
@@ -47,5 +48,5 @@ import vueTestJQ1 from {{ '/test/TestJQ1_App.vue'|theasResource }}
 
     new Vue({
         delimiters: ["[[", "]]"],
-        render: h => h(vueTestJQ1),
+        render: h => h(thLogin),
     }).$mount(`#thapp`);
