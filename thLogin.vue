@@ -54,8 +54,6 @@
 </template>
 
 <script>
-
-    
     // Import any Vue components we want to use.
     // Note that these can be via theasResource filter (for
     // cache-busting), but they must specify a fully-qualified
