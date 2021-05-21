@@ -45,7 +45,7 @@
                 // Dynamic data will be fetched asynchronously
                 data_Steps: [],
                 lastFetch_Steps: null,
-                asyncResource_Steps: 'test/TestBSVTable.vue',
+                asyncResource_Steps: 'vuecomp/TestBSVTable.vue',
                 asyncCmd_Steps: 'fetchSteps',
 
                 fields_Steps: [
