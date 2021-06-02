@@ -14,7 +14,8 @@
         ============================================ -->
 
     <!-- Bootstrap Css -->  
-    <link type="text/css" rel="stylesheet" href="https://arcadia2.opsstream.com/cdn/bootstrap4/css/bootstrap.min.css" />
+
+    <link type="text/css" rel="stylesheet" href="https://arcadia2.opsstream.com/cdn/bootstrap5/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="https://arcadia2.opsstream.com/cdn/bootstrap-vue/bootstrap-vue.css">
 
     <!-- Icons Css -->
@@ -346,26 +347,9 @@
                                 <div class="tab-pane fade show active" id="tab_columns_01">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col sm-12">
-
+<div id="app">Should go here {{ message }}</div>
                                             <div>
-                                                    <div>
-                                                        <b-card
-                                                          title="Card Title"
-                                                          img-src="https://picsum.photos/600/300/?image=25"
-                                                          img-alt="Image"
-                                                          img-top
-                                                          tag="article"
-                                                          style="max-width: 20rem;"
-                                                          class="mb-2"
-                                                        >
-                                                          <b-card-text>
-                                                            Some quick example text to build on the card title and make up the bulk of the card's content.
-                                                          </b-card-text>
-                                                      
-                                                          <b-button href="#" variant="primary">Go somewhere</b-button>
-                                                        </b-card>
-                                                      </div>  
-                                                      
+                                                <b-card-group deck>                                                   
                                                       
                                                   <b-card title="Title" img-src="https://picsum.photos/300/300/?image=41" img-alt="Image" img-top>
                                                     <b-card-text>
@@ -424,8 +408,11 @@
                                                       <small class="text-muted">Last updated 3 mins ago</small>
                                                     </template>
                                                   </b-card>
+
+                                                </b-card-group>     
 
                                               </div>
+                                      
                                         </div>
 
                                     </div>
@@ -1260,9 +1247,15 @@
     <!--script src="assets/js/vendor/jquery-3.3.1.min.js">script-->
 
     <!-- Bootstrap JS -->
+
+<!-- Load Vue followed by BootstrapVue -->
+
+<script src="https://arcadia2.opsstream.com/cdn/vuejs/vue.min.js"></script>    
+<script src="https://arcadia2.opsstream.com/cdn/bootstrap-vue/bootstrap-vue.min.js"></script>
+
+<!-- Load the following for BootstrapVueIcons support -->
+<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>    
     
-    <script src="https://arcadia2.opsstream.com/cdn/vuejs/vue.min.ver.1.js"></script>    
-    <script src="https://arcadia2.opsstream.com/cdn/bootstrap-vue/bootstrap-vue.min.js"></script>
     <!-- Load the following for BootstrapVueIcons support -->
     <!--cript src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"><cript-->    
 
@@ -1309,7 +1302,16 @@
 
     <!-- Main JS -->
     <!--cript src="assets/js/main.js">script-->
+<script>
+    Vue.config.devtools = true;
 
+    new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+      }
+    })
+</script>    
 
 </body>
 
