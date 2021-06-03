@@ -22,9 +22,26 @@
 <!-- include code at the end of the HTML header / the start of the body -->
 </head>
 <body>
-    <h1>Stupid</h1> 
 
     <main id="thapp">
+
+    <b-container>
+        <b-row>
+            <b-col cols="12">
+                <b-card img-alt="Image" img-src="https://picsum.photos/300/300/?image=41"
+                        img-top title="Title">
+                    <b-card-text>
+                        This card has supporting text below as a natural lead-in to
+                        additional content.
+                    </b-card-text>
+                </b-card>
+            </b-col>
+        </b-row>
+        
+        
+    <h1>Stupid</h1> 
+
+
         <h3>[[ message ]]</h3>        
      
             <div>
@@ -33,6 +50,9 @@
                 <b-button variant="success">Button</b-button>
                 <b-button variant="outline-primary">Button</b-button>
               </div>        
+
+</b-container>
+              
     </main>
 
 <script src="//arcadia2.opsstream.com/cdn/vuejs/vue.min.js"></script>
