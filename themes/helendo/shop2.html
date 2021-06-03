@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible"/>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <link type="text/css" rel="stylesheet" href="//arcadia2.opsstream.com/cdn/bootstrap4/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="//arcadia2.opsstream.com/cdn/bootstrap-vue/bootstrap-vue.css">
+    <link type="text/css" rel="stylesheet" href="//arcadia2.opsstream.com/cdn/font-awesome/css/all.css">
+
+
+<!-- include the HTML headers.  This brings in CSS files that we need. -->
+
+<meta name="apple-mobile-web-app-title" content="NurseDOT">
+<meta name="application-name" content="NurseDOT">
+<title>Test</title>
+
+<!-- include code at the end of the HTML header / the start of the body -->
+</head>
+<body>
+    <h1>Stupid</h1> 
+    <main id="thapp">
+     
+            <div>
+                <b-button>Button</b-button>
+                <b-button variant="danger">Button</b-button>
+                <b-button variant="success">Button</b-button>
+                <b-button variant="outline-primary">Button</b-button>
+              </div>        
+    </main>
+
+<script src="//arcadia2.opsstream.com/cdn/vuejs/vue.min.js"></script>
+<script src="//arcadia2.opsstream.com/cdn/bootstrap-vue/bootstrap-vue-test.js"></script>
+
+<script src="//arcadia2.opsstream.com/cdn/axios/axios.min.js"></script>
+<script src="//arcadia2.opsstream.com/cdn/hammerjs/hammer.min.js"></script>
+
+<script src="//arcadia2.opsstream.com/cdn/moment/moment.js"></script>
+<script src="//arcadia2.opsstream.com/cdn/screenfull/screenfull.js"></script>
+
+
+
+
+<script>
+    Vue.config.devtools = true;
+
+    //use Axios instead of vue-resource for HTTP calls as per https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4
+    Vue.prototype.$http = axios;
+    
+
+    Vue.directive('swipeleft', {
+        bind: function (el, binding) {
+            if (typeof binding.value === 'function') {
+
+                const mc = new Hammer.Manager(el, {
+                    touchAction: 'auto',
+                    inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchMouseInput,
+                    recognizers: [
+                        [Hammer.Swipe, {
+                            direction: Hammer.DIRECTION_LEFT
+                         }]
+                     ]
+                 });
+                mc.on('swipeleft', binding.value);
+            }
+        }
+    });
+
+    Vue.directive('swiperight', {
+        bind: function (el, binding) {
+            if (typeof binding.value === 'function') {
+
+                 const mc = new Hammer.Manager(el, {
+                    touchAction: 'auto',
+                    inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchMouseInput,
+                    recognizers: [
+                        [Hammer.Swipe, {
+                            direction: Hammer.DIRECTION_RIGHT
+                         }]
+                     ]
+                 });
+            
+                mc.on('swiperight', binding.value);
+            }
+        }
+    });
+
+    if (!FormData.prototype.set) {
+        FormData.prototype.set = FormData.prototype.append;
+    }
+
+    let thapp = new Vue({
+        el: '#thapp',
+        delimiters: ["[[", "]]"],
+
+        data: {
+
+            th: new Theas(),
+            message: 'Hello Vue!',
+            value: ''
+        }
+        });
+
+</script>        
+
+
+</body>
+</html>
