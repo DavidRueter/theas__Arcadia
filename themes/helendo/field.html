@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible"/>
+
+
+<!-- include the HTML headers.  This brings in CSS files that we need. -->
+
+<meta name="apple-mobile-web-app-title" content="Test1">
+<meta name="application-name" content="Test1">
+
+<title>Arcadia CabOrder Template</title>
+<meta content="" name="description">
+
+<!-- Favicon -->
+<link href="assets/images/favicon.ico" rel="icon">
+
+<!-- CSS
+    ============================================ -->
+
+<!-- Bootstrap Css -->
+
+
+<link type="text/css" rel="stylesheet" href="//arcadia2.opsstream.com/cdn/bootstrap4/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="//arcadia2.opsstream.com/cdn/bootstrap-vue/bootstrap-vue.css">
+<link type="text/css" rel="stylesheet" href="//arcadia2.opsstream.com/cdn/font-awesome/css/all.css">
+
+
+<!-- Icons Css -->
+<link href="assets/css/vendor/linearicons.min.css" rel="stylesheet">
+
+<!--link rel="stylesheet" href="https://arcadia2.opsstream.com/cdn/fullscreen.js/fullpage.min.css" -->
+
+<!-- Animation Css -->
+<link href="assets/css/plugins/animation.min.css" rel="stylesheet">
+
+<!-- Slick Slier Css -->
+<!--link rel="stylesheet" href="assets/css/plugins/slick.min.css" -->
+
+<!-- Magnific Popup CSS -->
+<!--link rel="stylesheet" href="assets/css/plugins/magnific-popup.css"-->
+
+<!-- Easyzoom CSS -->
+<link href="assets/css/plugins/easyzoom.css" rel="stylesheet">
+
+<!-- Main Style CSS -->
+<link href="assets/css/style.css" rel="stylesheet">
+
+<!-- include code at the end of the HTML header / the start of the body -->
+</head>
+<body>
+
+    <main id="thapp">
+     
+    <b-container>
+
+        <h3>[[ message ]]</h3>           
+
+        <b-container>
+            <b-row>
+                <b-col cols="12">
+                    <div>
+                        <b-button>Delivered</b-button>
+                        <b-button variant="danger">Installed</b-button>
+                        <b-button variant="success">Approved</b-button>  
+                    </div>                   
+                </b-col>
+            </b-row>
+        </b-container>
+
+
+        <b-row>
+            <b-col cols="6">
+                <b-card img-alt="Image" img-src="https://picsum.photos/300/300/?image=41"
+                        img-top title="Title">
+                    <b-card-text>
+                        Info about the lot and order...
+                    </b-card-text>
+                </b-card>
+            </b-col>
+        </b-row>
+                        
+
+    </b-container>
+
+    </main>
+
+
+
+<!-- JS
+============================================ -->
+<!-- Modernizer JS -->
+<script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+
+<!-- jQuery JS -->
+<!--script src="assets/js/vendor/jquery-3.3.1.min.js">script-->
+
+<!-- Bootstrap JS -->
+
+<!-- Load Vue followed by BootstrapVue -->
+
+<script src="//arcadia2.opsstream.com/cdn/vuejs/vue.min.js"></script>
+<script src="//arcadia2.opsstream.com/cdn/bootstrap-vue/bootstrap-vue.min.js"></script>
+<!--==cript src="//arcadia2.opsstream.com/cdn/bootstrap-vue/bootstrap-vue-test.js">script-->
+
+
+<!-- Load the following for BootstrapVueIcons support -->
+<!--cript src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"><cript-->
+
+    <script src="//arcadia2.opsstream.com/cdn/axios/axios.min.js"></script>
+    <script src="//arcadia2.opsstream.com/cdn/hammerjs/hammer.min.js"></script>
+    
+    <script src="//arcadia2.opsstream.com/cdn/moment/moment.js"></script>
+    <script src="//arcadia2.opsstream.com/cdn/screenfull/screenfull.js"></script>
+
+<!-- Fullpage JS -->
+<!--cript src="https://unpkg.com/vue-fullpage.js/dist/vue-fullpage.min.js"->script-->
+
+<!-- Slick Slider JS -->
+<!--cript src="assets/js/plugins/slick.min.js"><cript-->
+
+<!-- Countdown JS -->
+<!--cript src="assets/js/plugins/countdown.min.js">script-->
+
+<!-- Magnific Popup JS -->
+<!--cript src="assets/js/plugins/magnific-popup.js">script-->
+
+<!-- Easyzoom JS -->
+<!--cript src="assets/js/plugins/easyzoom.js">script-->
+
+<!-- ImagesLoaded JS -->
+<script src="assets/js/plugins/images-loaded.min.js"></script>
+
+<!-- Isotope JS -->
+<script src="assets/js/plugins/isotope.min.js"></script>
+
+<!-- YTplayer JS -->
+<!--cript src="assets/js/plugins/YTplayer.js">script-->
+
+<!-- Instagramfeed JS -->
+<!--cript src="assets/js/plugins/jquery.instagramfeed.min.js">script-->
+
+<!-- Ajax Mail JS -->
+<!--cript src="assets/js/plugins/ajax.mail.js">script-->
+
+<!-- wow JS -->
+<script src="assets/js/plugins/wow.min.js"></script>
+
+
+<!-- Plugins JS (Please remove the comment from below plugins.min.js for better website load performance and remove plugin js files from avobe) -->
+
+<!--
+<script src="assets/js/plugins/plugins.min.js"></script>
+-->
+
+<!-- Main JS -->
+<script src="assets/js/main.js"></script>
+
+<script>
+    Vue.config.devtools = true;
+
+    //use Axios instead of vue-resource for HTTP calls as per https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4
+    Vue.prototype.$http = axios;
+    
+
+    Vue.directive('swipeleft', {
+        bind: function (el, binding) {
+            if (typeof binding.value === 'function') {
+
+                const mc = new Hammer.Manager(el, {
+                    touchAction: 'auto',
+                    inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchMouseInput,
+                    recognizers: [
+                        [Hammer.Swipe, {
+                            direction: Hammer.DIRECTION_LEFT
+                         }]
+                     ]
+                 });
+                mc.on('swipeleft', binding.value);
+            }
+        }
+    });
+
+    Vue.directive('swiperight', {
+        bind: function (el, binding) {
+            if (typeof binding.value === 'function') {
+
+                 const mc = new Hammer.Manager(el, {
+                    touchAction: 'auto',
+                    inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchMouseInput,
+                    recognizers: [
+                        [Hammer.Swipe, {
+                            direction: Hammer.DIRECTION_RIGHT
+                         }]
+                     ]
+                 });
+            
+                mc.on('swiperight', binding.value);
+            }
+        }
+    });
+
+    if (!FormData.prototype.set) {
+        FormData.prototype.set = FormData.prototype.append;
+    }
+
+    let thapp = new Vue({
+        el: '#thapp',
+        delimiters: ["[[", "]]"],
+
+        data: {
+            message: 'Hello Vue!',
+            value: ''
+        }
+        });
+
+</script>        
+
+
+</body>
+</html>
